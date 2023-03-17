@@ -197,29 +197,8 @@ public class Spill extends Application {
         kartTolking(Kart.kartInnlesing());
 
         /* Pacman og spøkelsene opprettes, får startposisjon og legges til i Pane */
-        pacMan = new PacMan(BRETTLENGDE/2,BRETTHOYDE*0.75-14);
-        spillbrett.getChildren().add(pacMan.posisjon);
+        tegnAktører();
 
-        /* posisjon er felles navn på en Arc (per spøkelse), den tegnes som en halvsirkel (øvre del),
-           poly er et Polygon som er nedre halvdel av spøkelsene, også henger øvre og nedre del sammen.
-           Vi gjorde det på denne måten for å kunne bruke getCenterX() og andre nyttige metoder Arc har,
-           men ikke Polygon
-         */
-        blinky = new Blinky(BRETTLENGDE/2,BRETTHOYDE/2-60);
-        spillbrett.getChildren().add(blinky.posisjon);
-        spillbrett.getChildren().add(blinky.poly);
-
-        pinky = new Pinky(BRETTLENGDE/2,BRETTHOYDE/2-20);
-        spillbrett.getChildren().add(pinky.posisjon);
-        spillbrett.getChildren().add(pinky.poly);
-
-        inky = new Inky(BRETTLENGDE/2-20, BRETTHOYDE/2-20);
-        spillbrett.getChildren().add(inky.posisjon);
-        spillbrett.getChildren().add(inky.poly);
-
-        clyde = new Clyde(BRETTLENGDE/2+20, BRETTHOYDE/2-20);
-        spillbrett.getChildren().add(clyde.posisjon);
-        spillbrett.getChildren().add(clyde.poly);
     }
     /**
      Gameover-sjekken kjøres hver gang Pacman blir spist, og gjør en rekke tiltak
@@ -295,6 +274,71 @@ public class Spill extends Application {
         deathAnimation.setCycleCount(100);
         deathAnimation.setOnFinished(e -> reset());
         deathAnimation.play();
+    }
+    public static void win(){
+        if(litenPrikkListe.size() == 0 && storPrikkListe.size() == 0) {
+            Animasjoner.animation.pause();
+            Animasjoner.pacAnimation.pause();
+            Animasjoner.pauseSpokelser();
+
+            Animation winAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(2000), e -> pacMan.winAnimasjon(pacMan.posisjon)));
+            winAnimation.setCycleCount(1);
+            winAnimation.setOnFinished(e -> nesteBane());
+            winAnimation.play();
+        }
+    }
+    public static void nesteBane(){
+        if(veggListe != null)
+            veggListe.clear();
+        if(kryssListe != null)
+            kryssListe.clear();
+        // Disse skal være tomme nå, men de cleares for sikkerhets skyld
+        if(litenPrikkListe != null)
+            litenPrikkListe.clear();
+        if (storPrikkListe != null)
+            storPrikkListe.clear();
+
+        spillbrett.getChildren().remove(pacMan.posisjon);
+
+        spillbrett.getChildren().remove(blinky.posisjon);
+        spillbrett.getChildren().remove(blinky.poly);
+
+        spillbrett.getChildren().remove(inky.posisjon);
+        spillbrett.getChildren().remove(inky.poly);
+
+        spillbrett.getChildren().remove(pinky.posisjon);
+        spillbrett.getChildren().remove(pinky.poly);
+
+        spillbrett.getChildren().remove(clyde.posisjon);
+        spillbrett.getChildren().remove(clyde.poly);
+        kartTolking(Kart.kartInnlesing());
+        tegnAktører();
+        reset();
+    }
+    public static void tegnAktører(){
+        pacMan = new PacMan(BRETTLENGDE/2,BRETTHOYDE*0.75-14);
+        spillbrett.getChildren().add(pacMan.posisjon);
+        /* posisjon er felles navn på en Arc (per spøkelse), den tegnes som en halvsirkel (øvre del),
+           poly er et Polygon som er nedre halvdel av spøkelsene, også henger øvre og nedre del sammen.
+           Vi gjorde det på denne måten for å kunne bruke getCenterX() og andre nyttige metoder Arc har,
+           men ikke Polygon
+         */
+        blinky = new Blinky(BRETTLENGDE/2,BRETTHOYDE/2-60);
+        spillbrett.getChildren().add(blinky.posisjon);
+        spillbrett.getChildren().add(blinky.poly);
+
+        pinky = new Pinky(BRETTLENGDE/2,BRETTHOYDE/2-20);
+        spillbrett.getChildren().add(pinky.posisjon);
+        spillbrett.getChildren().add(pinky.poly);
+
+        inky = new Inky(BRETTLENGDE/2-20, BRETTHOYDE/2-20);
+        spillbrett.getChildren().add(inky.posisjon);
+        spillbrett.getChildren().add(inky.poly);
+
+        clyde = new Clyde(BRETTLENGDE/2+20, BRETTHOYDE/2-20);
+        spillbrett.getChildren().add(clyde.posisjon);
+        spillbrett.getChildren().add(clyde.poly);
     }
 
     public static void main(String[] args) {

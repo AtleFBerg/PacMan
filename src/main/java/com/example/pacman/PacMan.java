@@ -3,6 +3,8 @@ package com.example.pacman;
 import javafx.geometry.BoundingBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.transform.Rotate;
+
 import java.util.ArrayList;
 
 /**
@@ -205,6 +207,9 @@ public class PacMan extends Entitet{
             arc.setStartAngle(arc.getStartAngle()+2);
             arc.setLength(arc.getLength()-4);
         }
+    }
+    public void winAnimasjon(Arc arc){
+        arc.getTransforms().add(new Rotate(90, posisjon.getCenterX(), posisjon.getCenterY()));
     }
 
     /**

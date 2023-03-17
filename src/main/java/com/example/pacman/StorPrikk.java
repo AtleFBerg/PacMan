@@ -32,6 +32,7 @@ public class StorPrikk extends Entitet {
                 Spill.spillbrett.getChildren().remove(Spill.storPrikkListe.get(i).posisjon);
                 Spill.storPrikkListe.remove(i);
                 oppdaterScore();
+                Spill.win();
                 Spokelse.erSkremt = true;
                 Spokelse.antSpist = 0;
                 Spill.blinky.skremtSpokelse();
